@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-parent</artifactId>
+	    <version>2.3.8.RELEASE</version>
+    </parent>
+    <artifactId>spring-cloud-function-kafka-consumer</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>spring-cloud-function-kafka-consumer</name>
+    <description>Spring Cloud Function Kafka Consumer</description>
+ 
+    <properties>
+        <sonar.projectKey>${project.artifactId}</sonar.projectKey>
+        <java.version>11</java.version>
+        <aws-lambda-java-events-version>2.2.5</aws-lambda-java-events-version>   
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>     
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-events</artifactId>
+            <version>${aws-lambda-java-events-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-function-adapter-aws</artifactId>
+		</dependency>	
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-schema-registry-client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency> 
+
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-streams-avro-serde</artifactId>
+            <version>5.1.2</version>
+        </dependency>              
+        
+        		
+		<dependency>
+		  <groupId>org.apache.avro</groupId>
+		  <artifactId>avro</artifactId>
+		  <version>1.9.2</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-lambda-java-core</artifactId>
+			<version>1.2.0</version>
+			<scope>provided</scope>
+		</dependency>		 
+       <!-- Kafka Start -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+			<scope>test</scope>
+		</dependency>      
+ <!--       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-test-support</artifactId>
+            <scope>test</scope>
+       </dependency>	 -->	
+	<dependency> 
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-stream</artifactId>
+	    <type>test-jar</type>
+	    <scope>test</scope>
+	    <classifier>test-binder</classifier>
+	</dependency>         
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+			<plugin>
+			  <groupId>org.apache.avro</groupId>
+			  <artifactId>avro-maven-plugin</artifactId>
+			  <version>1.9.2</version>
+			  <executions>
+			    <execution>
+			      <phase>generate-sources</phase>
+			      <goals>
+			        <goal>schema</goal>
+			      </goals>
+			      <configuration>
+                    <stringType>String</stringType>
+			        <sourceDirectory>${project.basedir}/src/main/resources/avro/</sourceDirectory>
+			        <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+			        <enableDecimalLogicalType>true</enableDecimalLogicalType>
+			      </configuration>
+			    </execution>
+			  </executions>
+			</plugin>          
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+			</plugin>      		  
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build> 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Hoxton.SR8</version>				
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>	
+		</dependencies>
+	</dependencyManagement>
+</project>
