@@ -16,7 +16,6 @@
     <properties>
         <sonar.projectKey>${project.artifactId}</sonar.projectKey>
         <java.version>11</java.version>
-        <aws-lambda-java-events-version>2.2.5</aws-lambda-java-events-version>   
     </properties>
 
     <dependencies>
@@ -31,48 +30,24 @@
             <optional>true</optional>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-lambda-java-events</artifactId>
-            <version>${aws-lambda-java-events-version}</version>
-        </dependency>
-        <dependency>
+        <dependency> 
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-		<dependency>
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-function-adapter-aws</artifactId>
-		</dependency>	
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-schema-registry-client</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency> 
-
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-streams-avro-serde</artifactId>
             <version>5.1.2</version>
         </dependency>              
-        
-        		
 		<dependency>
 		  <groupId>org.apache.avro</groupId>
 		  <artifactId>avro</artifactId>
 		  <version>1.9.2</version>
-		</dependency>		
-		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-lambda-java-core</artifactId>
-			<version>1.2.0</version>
-			<scope>provided</scope>
 		</dependency>		 
        <!-- Kafka Start -->
         <dependency>
@@ -84,20 +59,21 @@
 		    <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
 			<scope>test</scope>
 		</dependency>      
- <!--       <dependency>
-           <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-test-support</artifactId>
-            <scope>test</scope>
-       </dependency>	 -->	
-	<dependency> 
-	    <groupId>org.springframework.cloud</groupId>
-	    <artifactId>spring-cloud-stream</artifactId>
-	    <type>test-jar</type>
-	    <scope>test</scope>
-	    <classifier>test-binder</classifier>
-	</dependency>         
+		<dependency> 
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-stream</artifactId>
+		    <type>test-jar</type>
+		    <scope>test</scope>
+		    <classifier>test-binder</classifier>
+		</dependency>         
     </dependencies>
-
+   <repositories>
+        <!-- other maven repositories the project -->
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -126,14 +102,7 @@
 				<configuration>
 					<executable>true</executable>
 				</configuration>
-			</plugin>      		  
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                </configuration>
-            </plugin>
+			</plugin>      
         </plugins>
     </build> 
 	<dependencyManagement>
@@ -141,7 +110,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Hoxton.SR8</version>				
+				<version>Hoxton.SR9</version>				
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>	
