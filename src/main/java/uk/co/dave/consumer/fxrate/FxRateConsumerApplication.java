@@ -5,11 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.schema.registry.client.EnableSchemaRegistryClient;
 
 
-/**
- * Two options to make a Spring Cloud Stream 2 project work in Spring Cloud Stream 3 <br/>
- * 1) add @SpringBootApplication(exclude = FunctionConfiguration.class) <br/>
- * 2) add a Bean called output()
- */
+
 @SpringBootApplication
 @EnableSchemaRegistryClient
 public class FxRateConsumerApplication {
