@@ -1,9 +1,11 @@
 package uk.co.dave;
 
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.cloud.contract.stubrunner.StubTrigger;
@@ -11,9 +13,13 @@ import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRun
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties.StubsMode;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
 import org.springframework.context.annotation.Import;
+import org.springframework.messaging.SubscribableChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.co.dave.consumer.fxrate.FxRateConsumerApplication;
 import uk.co.dave.consumer.fxrate.consumer.FxRateConsumer;
+import uk.co.dave.consumer.fxrate.consumer.avro.AvroFxRateEvent;
+import uk.co.dave.consumer.fxrate.consumer.json.JsonFxRateEvent;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FxRateConsumerApplication.class}, webEnvironment = WebEnvironment.NONE)
@@ -26,16 +32,52 @@ public class ConsumerIntegartionTest {
   @Autowired
   private FxRateConsumer fxRateConsumer;
 
+  @Autowired
+  @Qualifier("consumeJson-in-0")
+  private SubscribableChannel consumeJsonInChannel;
+
+
+  @Autowired
+  @Qualifier("consumeAvro-in-0")
+  private SubscribableChannel consumeAvroInChannel;
+
+  /**
+   * Works
+   */
   @Test
-  public void testJsonFxRateBatchEvent() {
+  public void testJsonFxRateEvent() {
+    JsonFxRateEvent expected = new JsonFxRateEvent("GBP", "USD", BigDecimal.TEN);
+    consumeJsonInChannel.send(MessageBuilder.withPayload(expected).build());
+    Assertions.assertEquals(expected, fxRateConsumer.getLastJsonFxRateEvent());
+  }
+  /**
+   * Does not work
+   */
+  @Test
+  public void testJsonFxRateEventViaSpringCloudContract() {
+    JsonFxRateEvent expected = new JsonFxRateEvent("GBP", "USD", BigDecimal.valueOf(1.23));
     stubTrigger.trigger("triggerJsonFxRateEvent");
-    Assertions.assertNotNull(fxRateConsumer.getLastJsonFxRateEvent());
+    Assertions.assertEquals(expected, fxRateConsumer.getLastJsonFxRateEvent());
   }
-
+  
+  /**
+   * Works
+   */
   @Test
-  public void testAvroFxRateBatchEvent() {
-    stubTrigger.trigger("triggerAvroFxRateEvent");
-    Assertions.assertNotNull(fxRateConsumer.getLastAvroFxRateEvent());
+  public void testAvroFxRateEvent() {
+    AvroFxRateEvent expected = AvroFxRateEvent.newBuilder().setFrom("GBP").setTo("USD").setRate(BigDecimal.TEN).build();
+    consumeAvroInChannel.send(MessageBuilder.withPayload(expected).build());
+    Assertions.assertEquals(expected, fxRateConsumer.getLastAvroFxRateEvent());
   }
-
+  
+  /**
+   * Does not work
+   */
+  @Test
+  public void testAvroFxRateEventViaSpringCloudContract() {
+    AvroFxRateEvent expected = AvroFxRateEvent.newBuilder().setFrom("GBP").setTo("USD").setRate(BigDecimal.valueOf(1.23)).build();
+    stubTrigger.trigger("triggerAvroFxRateEvent");
+    Assertions.assertEquals(expected, fxRateConsumer.getLastAvroFxRateEvent());
+  }
+  
 }

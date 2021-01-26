@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class AvroFxRateEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -1110862949977971711L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AvroFxRateEvent\",\"namespace\":\"uk.co.dave.consumer.fxrate.consumer.avro\",\"fields\":[{\"name\":\"from\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"to\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"rate\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":7,\"scale\":6}},{\"name\":\"timestamp\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  private static final long serialVersionUID = -6541967269400076578L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AvroFxRateEvent\",\"namespace\":\"uk.co.dave.consumer.fxrate.consumer.avro\",\"fields\":[{\"name\":\"from\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"to\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"rate\",\"type\":{\"type\":\"bytes\",\"logicalType\":\"decimal\",\"precision\":7,\"scale\":6}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -77,7 +77,6 @@ static {
   @Deprecated public java.lang.String from;
   @Deprecated public java.lang.String to;
   @Deprecated public java.math.BigDecimal rate;
-  @Deprecated public java.lang.String timestamp;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -91,13 +90,11 @@ static {
    * @param from The new value for from
    * @param to The new value for to
    * @param rate The new value for rate
-   * @param timestamp The new value for timestamp
    */
-  public AvroFxRateEvent(java.lang.String from, java.lang.String to, java.math.BigDecimal rate, java.lang.String timestamp) {
+  public AvroFxRateEvent(java.lang.String from, java.lang.String to, java.math.BigDecimal rate) {
     this.from = from;
     this.to = to;
     this.rate = rate;
-    this.timestamp = timestamp;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -108,7 +105,6 @@ static {
     case 0: return from;
     case 1: return to;
     case 2: return rate;
-    case 3: return timestamp;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -118,7 +114,6 @@ static {
       null,
       null,
       new org.apache.avro.Conversions.DecimalConversion(),
-      null,
       null
   };
 
@@ -134,7 +129,6 @@ static {
     case 0: from = value$ != null ? value$.toString() : null; break;
     case 1: to = value$ != null ? value$.toString() : null; break;
     case 2: rate = (java.math.BigDecimal)value$; break;
-    case 3: timestamp = value$ != null ? value$.toString() : null; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -191,23 +185,6 @@ static {
   }
 
   /**
-   * Gets the value of the 'timestamp' field.
-   * @return The value of the 'timestamp' field.
-   */
-  public java.lang.String getTimestamp() {
-    return timestamp;
-  }
-
-
-  /**
-   * Sets the value of the 'timestamp' field.
-   * @param value the value to set.
-   */
-  public void setTimestamp(java.lang.String value) {
-    this.timestamp = value;
-  }
-
-  /**
    * Creates a new AvroFxRateEvent RecordBuilder.
    * @return A new AvroFxRateEvent RecordBuilder
    */
@@ -251,7 +228,6 @@ static {
     private java.lang.String from;
     private java.lang.String to;
     private java.math.BigDecimal rate;
-    private java.lang.String timestamp;
 
     /** Creates a new Builder */
     private Builder() {
@@ -276,10 +252,6 @@ static {
         this.rate = data().deepCopy(fields()[2].schema(), other.rate);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.timestamp)) {
-        this.timestamp = data().deepCopy(fields()[3].schema(), other.timestamp);
-        fieldSetFlags()[3] = other.fieldSetFlags()[3];
-      }
     }
 
     /**
@@ -299,10 +271,6 @@ static {
       if (isValidValue(fields()[2], other.rate)) {
         this.rate = data().deepCopy(fields()[2].schema(), other.rate);
         fieldSetFlags()[2] = true;
-      }
-      if (isValidValue(fields()[3], other.timestamp)) {
-        this.timestamp = data().deepCopy(fields()[3].schema(), other.timestamp);
-        fieldSetFlags()[3] = true;
       }
     }
 
@@ -426,46 +394,6 @@ static {
       return this;
     }
 
-    /**
-      * Gets the value of the 'timestamp' field.
-      * @return The value.
-      */
-    public java.lang.String getTimestamp() {
-      return timestamp;
-    }
-
-
-    /**
-      * Sets the value of the 'timestamp' field.
-      * @param value The value of 'timestamp'.
-      * @return This builder.
-      */
-    public uk.co.dave.consumer.fxrate.consumer.avro.AvroFxRateEvent.Builder setTimestamp(java.lang.String value) {
-      validate(fields()[3], value);
-      this.timestamp = value;
-      fieldSetFlags()[3] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'timestamp' field has been set.
-      * @return True if the 'timestamp' field has been set, false otherwise.
-      */
-    public boolean hasTimestamp() {
-      return fieldSetFlags()[3];
-    }
-
-
-    /**
-      * Clears the value of the 'timestamp' field.
-      * @return This builder.
-      */
-    public uk.co.dave.consumer.fxrate.consumer.avro.AvroFxRateEvent.Builder clearTimestamp() {
-      timestamp = null;
-      fieldSetFlags()[3] = false;
-      return this;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public AvroFxRateEvent build() {
@@ -474,7 +402,6 @@ static {
         record.from = fieldSetFlags()[0] ? this.from : (java.lang.String) defaultValue(fields()[0]);
         record.to = fieldSetFlags()[1] ? this.to : (java.lang.String) defaultValue(fields()[1]);
         record.rate = fieldSetFlags()[2] ? this.rate : (java.math.BigDecimal) defaultValue(fields()[2]);
-        record.timestamp = fieldSetFlags()[3] ? this.timestamp : (java.lang.String) defaultValue(fields()[3]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

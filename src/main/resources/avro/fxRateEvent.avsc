@@ -11,7 +11,6 @@
                   "precision": 7,
                   "scale": 6
                 }
-            }, 
-        {"name":"timestamp", "type":"string"}                   
+            }              
        ]
 }
