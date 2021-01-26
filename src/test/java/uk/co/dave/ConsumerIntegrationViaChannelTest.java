@@ -25,7 +25,7 @@ import uk.co.dave.consumer.fxrate.consumer.json.JsonFxRateEvent;
 @SpringBootTest(classes = {FxRateConsumerApplication.class}, webEnvironment = WebEnvironment.NONE)
 @AutoConfigureStubRunner(stubsMode = StubsMode.CLASSPATH, ids = {"uk.co.dave:fx-producer:+:stubs"})
 @Import({TestChannelBinderConfiguration.class})
-public class ConsumerIntegartionViaChannelTest {
+public class ConsumerIntegrationViaChannelTest {
 
 
   @Autowired
