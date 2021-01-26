@@ -25,31 +25,13 @@ import uk.co.dave.consumer.fxrate.consumer.json.JsonFxRateEvent;
 @SpringBootTest(classes = {FxRateConsumerApplication.class}, webEnvironment = WebEnvironment.NONE)
 @AutoConfigureStubRunner(stubsMode = StubsMode.CLASSPATH, ids = {"uk.co.dave:fx-producer:+:stubs"})
 @Import({TestChannelBinderConfiguration.class})
-public class ConsumerIntegartionTest {
+public class ConsumerIntegartionViaContractTest {
   @Autowired
   private StubTrigger stubTrigger;
 
   @Autowired
   private FxRateConsumer fxRateConsumer;
 
-  @Autowired
-  @Qualifier("consumeJson-in-0")
-  private SubscribableChannel consumeJsonInChannel;
-
-
-  @Autowired
-  @Qualifier("consumeAvro-in-0")
-  private SubscribableChannel consumeAvroInChannel;
-
-  /**
-   * Works
-   */
-  @Test
-  public void testJsonFxRateEvent() {
-    JsonFxRateEvent expected = new JsonFxRateEvent("GBP", "USD", BigDecimal.TEN);
-    consumeJsonInChannel.send(MessageBuilder.withPayload(expected).build());
-    Assertions.assertEquals(expected, fxRateConsumer.getLastJsonFxRateEvent());
-  }
   /**
    * Does not work
    */
@@ -58,16 +40,6 @@ public class ConsumerIntegartionTest {
     JsonFxRateEvent expected = new JsonFxRateEvent("GBP", "USD", BigDecimal.valueOf(1.23));
     stubTrigger.trigger("triggerJsonFxRateEvent");
     Assertions.assertEquals(expected, fxRateConsumer.getLastJsonFxRateEvent());
-  }
-  
-  /**
-   * Works
-   */
-  @Test
-  public void testAvroFxRateEvent() {
-    AvroFxRateEvent expected = AvroFxRateEvent.newBuilder().setFrom("GBP").setTo("USD").setRate(BigDecimal.TEN).build();
-    consumeAvroInChannel.send(MessageBuilder.withPayload(expected).build());
-    Assertions.assertEquals(expected, fxRateConsumer.getLastAvroFxRateEvent());
   }
   
   /**
