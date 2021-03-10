@@ -1,119 +1,190 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-	    <groupId>org.springframework.boot</groupId>
-	    <artifactId>spring-boot-starter-parent</artifactId>
-	    <version>2.3.8.RELEASE</version>
-    </parent>
-    <artifactId>spring-cloud-function-kafka-consumer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>spring-cloud-function-kafka-consumer</name>
-    <description>Spring Cloud Function Kafka Consumer</description>
- 
-    <properties>
-        <sonar.projectKey>${project.artifactId}</sonar.projectKey>
-        <java.version>11</java.version>
-    </properties>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.9.RELEASE</version>
+	</parent>
+	<artifactId>spring-cloud-function-kafka-consumer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>spring-cloud-function-kafka-consumer</name>
+	<description>Spring Cloud Function Kafka Consumer</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>     
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
-        <dependency> 
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-schema-registry-client</artifactId>
-        </dependency> 
-        <dependency>
-            <groupId>io.confluent</groupId>
-            <artifactId>kafka-streams-avro-serde</artifactId>
-            <version>5.1.2</version>
-        </dependency>              
+	<properties>
+		<sonar.projectKey>${project.artifactId}</sonar.projectKey>
+		<java.version>11</java.version>
+
+		<spring-cloud-stream.version>3.0.12.BUILD-SNAPSHOT</spring-cloud-stream.version>
+		<spring-cloud-stream-binder-kafka.version>3.0.12.BUILD-SNAPSHOT</spring-cloud-stream-binder-kafka.version>
+		<spring-cloud-stream-binder-rabbit.version>3.0.12.BUILD-SNAPSHOT</spring-cloud-stream-binder-rabbit.version>
+		<spring-cloud-schema-registry.version>1.0.12.BUILD-SNAPSHOT</spring-cloud-schema-registry.version>
+		<spring-cloud-stream-dependencies.version>Horsham.BUILD-SNAPSHOT</spring-cloud-stream-dependencies.version>
+	</properties>
+
+	<dependencies>
 		<dependency>
-		  <groupId>org.apache.avro</groupId>
-		  <artifactId>avro</artifactId>
-		  <version>1.9.2</version>
-		</dependency>		 
-       <!-- Kafka Start -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
-        </dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>      
-		<dependency> 
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-stream</artifactId>
-		    <type>test-jar</type>
-		    <scope>test</scope>
-		    <classifier>test-binder</classifier>
-		</dependency>         
-    </dependencies>
-   <repositories>
-        <!-- other maven repositories the project -->
-        <repository>
-            <id>confluent</id>
-            <url>https://packages.confluent.io/maven/</url>
-        </repository>
-    </repositories>
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-schema-registry-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.confluent</groupId>
+			<artifactId>kafka-streams-avro-serde</artifactId>
+			<version>5.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream</artifactId>
+			<version>${spring-cloud-stream.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream</artifactId>
+			<version>${spring-cloud-stream.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+			<classifier>test-binder</classifier>
+		</dependency>
+
+		<!-- Kafka Start -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-stream-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<!-- other maven repositories the project -->
+		<repository>
+			<id>confluent</id>
+			<url>https://packages.confluent.io/maven/</url>
+		</repository>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/libs-snapshot-local</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/libs-milestone-local</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-releases</id>
+			<name>Spring Releases</name>
+			<url>https://repo.spring.io/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/libs-snapshot-local</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/libs-milestone-local</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-releases</id>
+			<name>Spring Releases</name>
+			<url>https://repo.spring.io/libs-release-local</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
 			<plugin>
-			  <groupId>org.apache.avro</groupId>
-			  <artifactId>avro-maven-plugin</artifactId>
-			  <version>1.9.2</version>
-			  <executions>
-			    <execution>
-			      <phase>generate-sources</phase>
-			      <goals>
-			        <goal>schema</goal>
-			      </goals>
-			      <configuration>
-                    <stringType>String</stringType>
-			        <sourceDirectory>${project.basedir}/src/main/resources/avro/</sourceDirectory>
-			        <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
-			        <enableDecimalLogicalType>true</enableDecimalLogicalType>
-			      </configuration>
-			    </execution>
-			  </executions>
-			</plugin>          
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>1.9.2</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<stringType>String</stringType>
+							<sourceDirectory>${project.basedir}/src/main/resources/avro/</sourceDirectory>
+							<outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+							<enableDecimalLogicalType>true</enableDecimalLogicalType>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<executable>true</executable>
 				</configuration>
-			</plugin>      
-        </plugins>
-    </build> 
+			</plugin>
+		</plugins>
+	</build>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Hoxton.SR9</version>				
+				<version>Hoxton.BUILD-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>	
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

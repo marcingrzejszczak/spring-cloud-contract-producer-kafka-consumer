@@ -21,10 +21,12 @@ public class FxRateConsumer {
 
   @Bean
   public Consumer<Flux<JsonFxRateEvent>> consumeJson() {
-    return events -> events.subscribe(jsonFxRateEvent -> {
-      log.info("jsonFxRateEvent = {}", jsonFxRateEvent);
-      this.lastJsonFxRateEvent = jsonFxRateEvent;
-    });
+    return events -> {
+      events.subscribe(jsonFxRateEvent -> {
+        log.info("jsonFxRateEvent = {}", jsonFxRateEvent);
+        this.lastJsonFxRateEvent = jsonFxRateEvent;
+      });
+    };
   }
 
   @Bean
